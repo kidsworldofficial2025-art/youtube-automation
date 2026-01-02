@@ -1,1 +1,4 @@
-requests
+TTS
+moviepy
+imageio
+imageio-ffmpeg
