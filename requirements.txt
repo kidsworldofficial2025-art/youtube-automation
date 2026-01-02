@@ -1,5 +1,5 @@
+moviepy==1.0.3
 gTTS
-moviepy
 imageio
 imageio-ffmpeg
 google-api-python-client
