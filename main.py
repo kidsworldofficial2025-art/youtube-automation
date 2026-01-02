@@ -32,7 +32,8 @@ tts.save("voice.mp3")
 # ----------------------
 audio = AudioFileClip("voice.mp3")
 
-image = ImageClip("https://i.imgur.com/8Km9tLL.jpg") \
+image = ImageClip("background.jpg")
+
     .set_duration(audio.duration) \
     .resize(height=1280)
 
