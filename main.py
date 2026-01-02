@@ -1,17 +1,13 @@
 import random
 from gtts import gTTS
-from moviepy.editor import *
+from moviepy.editor import ImageClip, AudioFileClip
 import os
-import json
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
-from googleapiclient.http import MediaFileUpload
 
 # ----------------------
 # 1. Generate Story
 # ----------------------
 stories = [
-    "Once upon a time, a small rabbit was scared of the dark. One day he became brave. Moral: Courage makes you strong.",
+    "Once upon a time, a small rabbit was afraid of the dark. One day he became brave. Moral: Courage makes you strong.",
     "A little bird wanted to fly high but was afraid. One day it tried and succeeded. Moral: Never give up.",
     "A kind elephant helped everyone and one day they helped him back. Moral: Kindness always returns."
 ]
@@ -33,40 +29,10 @@ tts.save("voice.mp3")
 audio = AudioFileClip("voice.mp3")
 
 image = ImageClip("background.jpg")
-
-    .set_duration(audio.duration) \
-    .resize(height=1280)
+image = image.set_duration(audio.duration)
+image = image.resize(height=1280)
 
 video = image.set_audio(audio)
 video.write_videofile("final_video.mp4", fps=24)
 
-# ----------------------
-# 4. Upload to YouTube
-# ----------------------
-SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
-
-creds_data = json.loads(os.environ["YOUTUBE_CLIENT_SECRET"])
-
-flow = InstalledAppFlow.from_client_config(creds_data, SCOPES)
-credentials = flow.run_console()
-
-youtube = build("youtube", "v3", credentials=credentials)
-
-request = youtube.videos().insert(
-    part="snippet,status",
-    body={
-        "snippet": {
-            "title": "Kids Story | Moral Story",
-            "description": "A short kids story with moral.",
-            "tags": ["kids story", "bedtime story", "shorts"],
-            "categoryId": "24"
-        },
-        "status": {
-            "privacyStatus": "public"
-        }
-    },
-    media_body=MediaFileUpload("final_video.mp4")
-)
-
-response = request.execute()
-print("UPLOAD SUCCESS:", response["id"])
+print("✅ Video created successfully!")
