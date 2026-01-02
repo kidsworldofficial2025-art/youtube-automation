@@ -1,4 +1,7 @@
-TTS
+gTTS
 moviepy
 imageio
 imageio-ffmpeg
+google-api-python-client
+google-auth
+google-auth-oauthlib
