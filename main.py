@@ -1,7 +1,6 @@
 import random
 from gtts import gTTS
-from moviepy.editor import ImageClip, AudioFileClip
-import os
+from moviepy.editor import ColorClip, AudioFileClip
 
 # ----------------------
 # 1. Generate Story
@@ -24,15 +23,17 @@ tts = gTTS(text=story, lang="en")
 tts.save("voice.mp3")
 
 # ----------------------
-# 3. Create Video
+# 3. Create Video (NO IMAGE FILE)
 # ----------------------
 audio = AudioFileClip("voice.mp3")
 
-image = ImageClip("background.jpg")
-image = image.set_duration(audio.duration)
-image = image.resize(height=1280)
+video = ColorClip(
+    size=(720, 1280),     # Shorts size
+    color=(20, 20, 20),   # Dark background
+    duration=audio.duration
+)
 
-video = image.set_audio(audio)
+video = video.set_audio(audio)
 video.write_videofile("final_video.mp4", fps=24)
 
-print("✅ Video created successfully!")
+print("✅ VIDEO CREATED SUCCESSFULLY")
